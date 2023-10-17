@@ -13,6 +13,23 @@
   justify-content: center;
 }
 
+@media (max-width:768px) {
+
+  .Auth{
+    flex-direction: column;
+    width: 100%;
+   
+  }
+  
+
+.infoInput{
+  padding: 0;
+  padding-left: 10px;
+  height: 40px;
+}
+
+  
+}
 
 
 /* left side */

@@ -6,6 +6,7 @@
   gap: 1rem;
   overflow-x: clip;
   background-color: var(--cardColor);
+  
 }
 
 /* Profile Images */
@@ -22,6 +23,7 @@
 }
 .ProfileImages > img:nth-of-type(2) {
   width: 6rem;
+  height: 6rem;
   border-radius: 50%;
   position: absolute;
   bottom: -3rem;

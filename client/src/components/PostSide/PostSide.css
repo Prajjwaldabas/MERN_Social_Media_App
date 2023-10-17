@@ -4,5 +4,6 @@
     flex-direction: column;
     gap: 1rem;
     height: 100vh;
-    overflow: auto;;
+    overflow: auto;
+    grid-area: main;
 }

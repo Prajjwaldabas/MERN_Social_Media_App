@@ -95,3 +95,9 @@
 .mantine-5rr5mu {
 height: 40rem;
 }
+
+.flex-col{
+  display: flex;
+gap: 10px;
+  flex-direction: column;
+}
