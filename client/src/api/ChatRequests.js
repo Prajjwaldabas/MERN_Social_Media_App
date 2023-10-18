@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 
-const API = axios.create({ baseURL: 'http://localhost:5000' });
+const API = axios.create({ baseURL: 'https://mern-social-media-app-server-9yz2.onrender.com' });
 
 export const createChat = (data) => API.post('/chat/', data);
 
