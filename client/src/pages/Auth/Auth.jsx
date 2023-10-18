@@ -38,7 +38,7 @@ const Auth = () => {
   // Form Submission
   const handleSubmit = (e) => {
     setConfirmPass(true);
-    e.preventDefault();
+  
     if (isSignUp) {
       console.log(data)
       data.password === data.confirmpass
