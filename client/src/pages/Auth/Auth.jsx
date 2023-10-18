@@ -14,6 +14,8 @@ const Auth = () => {
     confirmpass: "",
   };
   const loading = useSelector((state) => state.authReducer.loading);
+
+  console.log(loading)
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isSignUp, setIsSignUp] = useState(false);
@@ -38,7 +40,7 @@ const Auth = () => {
   // Form Submission
   const handleSubmit = (e) => {
     setConfirmPass(true);
-  
+    e.preventDefault();
     if (isSignUp) {
       console.log(data)
       data.password === data.confirmpass

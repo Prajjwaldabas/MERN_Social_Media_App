@@ -26,7 +26,7 @@ app.use('/images', express.static('images'));
 
 
 const corsOptions = {
-  origin: "https://mern-social-media-app-frontend-1ggr.onrender.com",
+  origin: ["https://mern-social-media-app-frontend-1ggr.onrender.com","http://localhost:3000"],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 };
 
