@@ -15,7 +15,7 @@ const Auth = () => {
   };
   let loading = useSelector((state) => state.authReducer.loading);
 
-  loading = false;
+  // loading = false;
 
   console.log(loading)
   const navigate = useNavigate();
