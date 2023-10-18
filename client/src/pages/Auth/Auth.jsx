@@ -13,7 +13,9 @@ const Auth = () => {
     password: "",
     confirmpass: "",
   };
-  const loading = useSelector((state) => state.authReducer.loading);
+  let loading = useSelector((state) => state.authReducer.loading);
+
+  loading = false;
 
   console.log(loading)
   const navigate = useNavigate();
