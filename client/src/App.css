@@ -111,6 +111,19 @@ gap: 10px;
   width: 2rem;
 }
 
+.gradient-bg{
+  font-size: 3rem;
+  background-color: red;
+  background-image: var(--buttonBg);
+  background-size: 100%;
+  background-repeat: repeat;
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; 
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+}
+
 /* utilities classes */
 
 .flex{
