@@ -34,27 +34,23 @@
 
 /* left side */
 .a-left{
-    gap: 2rem;
+  display: flex;
+  flex-direction: column;
+ 
 }
 
-.a-left > img {
+.logo-text > img {
   width: 4rem;
   height: 4rem;
 }
 
-.Webname > h1 {
+.logo-text > h1 {
     font-size: 3rem;
     background-color: red;
-  
-    /* Create the gradient. */
     background-image: var(--buttonBg);
-    
-    /* Set the background size and repeat properties. */
     background-size: 100%;
     background-repeat: repeat;
-  
-    /* Use the text as a mask for the background. */
-    /* This will show the gradient as a text color rather than element bg. */
+
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent; 
     -moz-background-clip: text;
@@ -63,6 +59,7 @@
 
 .Webname>h6{
     font-size: 0.85rem;
+  margin-top: -1rem;
 }
 
 

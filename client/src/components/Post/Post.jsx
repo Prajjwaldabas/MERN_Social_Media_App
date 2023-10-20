@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import "./Post.css";
-import Comment from "../../img/comment.png";
-import Share from "../../img/share.png";
-import Heart from "../../img/like.png";
-import NotLike from "../../img/notlike.png";
+
 import { likePost } from "../../api/PostsRequests";
 import { useSelector } from "react-redux";
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import SmsIcon from '@mui/icons-material/Sms';
+import TelegramIcon from '@mui/icons-material/Telegram';
+
 
 const Post = ({ data }) => {
   const { user } = useSelector((state) => state.authReducer.authData);
@@ -26,14 +28,19 @@ const Post = ({ data }) => {
       />
 
       <div className="postReact">
-        <img
-          src={liked ? Heart : NotLike}
-          alt=""
-          style={{ cursor: "pointer" }}
-          onClick={handleLike}
-        />
-        <img src={Comment} alt="" />
-        <img src={Share} alt="" />
+        {liked ? (  <FavoriteIcon className='liked'     onClick={handleLike}/>)
+        
+        :(
+          <FavoriteBorderIcon className="liked"  onClick={handleLike}/>
+        )
+
+        }
+      
+       <SmsIcon className="liked"/>
+       <TelegramIcon className="liked"/>
+      
+    
+     
       </div>
 
       <span style={{ color: "var(--gray)", fontSize: "12px" }}>

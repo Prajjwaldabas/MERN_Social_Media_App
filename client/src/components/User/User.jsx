@@ -1,45 +1,73 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { followUser, unfollowUser } from "../../actions/UserAction";
-const User = ({ person }) => {
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { Link } from "react-router-dom";
+
+const User = ({ person,location }) => {
+  console.log(location)
   const publicFolder = process.env.REACT_APP_PUBLIC_FOLDER;
   const { user } = useSelector((state) => state.authReducer.authData);
   const dispatch = useDispatch()
   
   const [following, setFollowing] = useState(
-    person.followers.includes(user._id)
+    person.followers.includes(user._id) 
   );
-  const handleFollow = () => {
-    following
-      ? dispatch(unfollowUser(person._id, user))
-      : dispatch(followUser(person._id, user));
-    setFollowing((prev) => !prev);
+  const handleFollow = async () => {
+    if (following) {
+      try {
+        await dispatch(unfollowUser(person._id, user));
+       
+        setFollowing(false);
+        console.log(following)
+      } catch (error) {
+       
+        console.error('Error unfollowing user:', error);
+      }
+    } else {
+      try {
+        await dispatch(followUser(person._id, user));
+      
+        setFollowing(true);
+        console.log(following)
+      } catch (error) {
+ 
+        console.error('Error following user:', error);
+      }
+    }
   };
+  
   return (
-    <div className="follower">
-      <div>
-        <img
-          src={
-            publicFolder + person.profilePicture
-              ? publicFolder + person.profilePicture
-              : publicFolder + "defaultProfile.png"
-          }
-          alt="profile"
-          className="followerImage"
-        />
+    <div className={`${location==='modal' ? "flex jcsb aic": "follower"}`}>
+      <Link to={`/profile/${person._id}`}  className={`${location==='modal' ? "flex g-10 aic": "person-mob jcc"}`}  >
+      {!person.profilePicture ? (
+  <AccountCircleIcon style={{height:"3.2rem",width:"3.2rem"}}/>
+) : (
+  <img
+    src={publicFolder + person.profilePicture}
+    alt="profile"
+    className="followerImage"
+  />
+)}
+
         <div className="name">
           <span>{person.firstname} {person.lastname}</span>
           {/* <span>@{person.username}</span> */}
         </div>
-      </div>
-      <button
-        className={
-          following ? "button fc-button UnfollowButton" : "button fc-button"
-        }
-        onClick={handleFollow}
-      >
-        {following ? "Unfollow" : "Follow"}
-      </button>
+      </Link>
+      { (person._id !== user._id ) &&
+ <button
+ className={
+   following ? "button fc-button UnfollowButton" : "button fc-button"
+ }
+ onClick={handleFollow}
+>
+ {following ? "Unfollow" : "Follow"}
+</button>
+      
+       
+      }
+      
     </div>
   );
 };

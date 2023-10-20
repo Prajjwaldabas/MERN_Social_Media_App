@@ -3,25 +3,78 @@ import "./ProfileCard.css";
 import Cover from "../../img/cover.jpg";
 import Profile from "../../img/profileImg.jpg";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
+import FollowingModal from "../followingModal/followingModal";
+import { useState ,useEffect} from "react";
+import { useParams } from "react-router-dom";
+
+import { getUserById } from "../../actions/UserAction";
+
+
 const ProfileCard = ({location}) => {
+  
+
+    const params = useParams()
+    const dispatch = useDispatch();
+    const authUser = useSelector((state) => state.authReducer.authData.user);
+    const [user, setUser] = useState(authUser);
+    
+    // console.log(user)
+   
 
 
-  const { user } = useSelector((state) => state.authReducer.authData);
+    useEffect(() => {
+      const fetchData = async () => {
+        if (location === "profilePage") {
+          // console.log(location);
+          try {
+            const profileUser = await dispatch(getUserById(params.id));
+            // console.log(profileUser)
+            setUser(profileUser);
+          } catch (error) {
+         
+            console.error(error);
+          }
+        } else {
+          setUser(authUser);
+        }
+      };
+  
+      fetchData();
+    }, [dispatch, location, params.id, authUser]);
+    
+  
+  
+  
+
+ 
+  
+  
+
+
+  const [modalOpened, setModalOpened] = useState(false);
+ 
+  
+
+  // const { user } = useSelector((state) => state.authReducer.authData);
   const posts = useSelector((state)=>state.postReducer.posts)
   const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER;
 
+  
+
   return (
+    
     <div className="ProfileCard">
+       
       <div className="ProfileImages">
         <img src={
-            user.coverPicture
+            user?.coverPicture
               ? serverPublic + user.coverPicture
               : serverPublic + "defaultCover.jpg"
           } alt="CoverImage" />
         <img
           src={
-            user.profilePicture
+            user?.profilePicture
               ? serverPublic + user.profilePicture
               : serverPublic + "defaultProfile.png"
           }
@@ -29,23 +82,32 @@ const ProfileCard = ({location}) => {
         />
       </div>
       <div className="ProfileName">
-        <span>{user.firstname} {user.lastname}</span>
-        <span>{user.worksAt? user.worksAt : 'Write about yourself'}</span>
+        <span>{user?.firstname} {user?.lastname}</span>
+        <span>{user?.worksAt? user.worksAt : 'Write about yourself'}</span>
       </div>
 
 
  <div className="followStatus">
  <hr />
  <div>
-   <div className="follow">
-     <span>{user.followers.length}</span>
-     <span>Followers</span>
+   <div className="follow" >
+    <button onClick={() => setModalOpened(true)} className="fwb flex g-10 fd-col aic cp">
+     <span>{user?.followers.length}</span>
+     <span    >Followers</span>
+    </button>
+
    </div>
    <div className="vl"></div>
-   <div className="follow">
-     <span>{user.following.length}</span>
-     <span>Following</span>
+   <div className="follow"  >
+
+    <button onClick={() => setModalOpened(true)} className="fwb flex g-10 fd-col aic cp">
+     <span>{user?.following.length}</span>
+     <span  >Following</span>
+    </button>
+
    </div>
+
+   <FollowingModal modalOpened={modalOpened} setModalOpened={setModalOpened} />
  
    {/* for profilepage */}
    {location === "profilePage" && (
@@ -53,7 +115,7 @@ const ProfileCard = ({location}) => {
        <div className="vl"></div>
        <div className="follow">
          <span>{
-         posts.filter((post)=>post.userId === user._id).length
+         posts.filter((post)=>post.userId === user?._id).length
          }</span>
          <span>Posts</span>
        </div>{" "}
@@ -61,6 +123,7 @@ const ProfileCard = ({location}) => {
    )}
  </div>
  <hr />
+ 
 </div>
    
      
@@ -74,11 +137,12 @@ const ProfileCard = ({location}) => {
 
         
         <span>
-          <Link to={`/profile/${user._id}`} style={{ textDecoration: "none", color: "inherit" }}>
+          <Link to={`/profile/${user._id}`} style={{ textDecoration: "none", color: "rgb(107 82 178)" }}>
             My Profile
           </Link>
         </span>
       )}
+      
     </div>
   );
 };

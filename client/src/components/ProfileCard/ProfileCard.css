@@ -97,3 +97,14 @@
     margin-bottom: 1rem;
     cursor: pointer;
 }
+
+
+@media (max-width:768px) {
+
+  .ProfileCard {
+    display: none;
+    overflow: scroll;
+  }
+
+
+}

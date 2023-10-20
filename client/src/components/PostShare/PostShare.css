@@ -7,16 +7,17 @@
 }
 
 
-.PostShare>img{
+.postShare-top>img{
     border-radius: 50%;
     width: 3rem;
     height: 3rem;
 }
-.PostShare>div{
+.PostShare{
     display: flex;
     flex-direction: column;
-    width: 90%;
+    width: auto;
     gap: 1rem;
+ 
 }
 
 .PostShare>div>input{
@@ -24,23 +25,51 @@
     border-radius: 10px;
     padding: 10px;
     font-size: 17px;
+
     border: none;
     outline: none;
+    flex-grow: 1;
 }
 
+.postShare-top{
+    gap: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 
+@media (max-width:768px) {
+
+    .PostShare{
+        width: auto;
+
+    }
+
+    .PostShare>div>input{
+width: 160px;
+    }
+
+    .ps-button {
+        padding: 0px !important;
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+        font-size: 12px !important;
+    }
+
+    
+}
 
 
 
 .postOptions{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .option{
     padding: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
+    /* padding-left: 10px;
+    padding-right: 10px; */
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -77,3 +106,4 @@
     object-fit: cover;
     border-radius: 0.5rem;
 }
+

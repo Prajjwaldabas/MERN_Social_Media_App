@@ -61,6 +61,7 @@ const PostShare = () => {
   };
   return (
     <div className="PostShare">
+      <div className="postShare-top">
       <img
         src={
           user.profilePicture
@@ -69,13 +70,27 @@ const PostShare = () => {
         }
         alt="Profile"
       />
-      <div>
-        <input
+
+<input
           type="text"
           placeholder="What's happening?"
           required
           ref={desc}
         />
+
+<button
+            className="button ps-button"
+            onClick={handleUpload}
+            disabled={loading}
+          >
+            {loading ? "uploading" : "Post"}
+          </button>
+
+
+      </div>
+     
+      <div>
+       
         <div className="postOptions">
           <div
             className="option"
@@ -98,13 +113,7 @@ const PostShare = () => {
             <UilSchedule />
             Shedule
           </div>
-          <button
-            className="button ps-button"
-            onClick={handleUpload}
-            disabled={loading}
-          >
-            {loading ? "uploading" : "Share"}
-          </button>
+          
 
           <div style={{ display: "none" }}>
             <input type="file" ref={imageRef} onChange={onImageChange} />

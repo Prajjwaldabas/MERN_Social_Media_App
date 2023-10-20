@@ -1,21 +1,32 @@
 import React from "react";
 
-import Home from "../../img/home.png";
-import Noti from "../../img/noti.png";
+import ChatIcon from '@mui/icons-material/Chat';
 import Comment from "../../img/comment.png";
-import { UilSetting } from "@iconscout/react-unicons";
+
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import PersonIcon from '@mui/icons-material/Person';
+import HomeIcon from '@mui/icons-material/Home';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import TelegramIcon from '@mui/icons-material/Telegram';
 
 const NavIcons = () => {
+  const { user } = useSelector((state) => state.authReducer.authData);
   return (
     <div className="navIcons">
       <Link to="../home">
-        <img src={Home} alt="" />
+      
+        <HomeIcon className="nav-active"/>
       </Link>
-      <UilSetting />
-      <img src={Noti} alt="" />
+      <Link to={`/profile/${user._id}`}>  <PersonIcon /></Link>
+     <Link to=''>
+     <NotificationsIcon/>
+     </Link>
+    
+  
       <Link to="../chat">
-        <img src={Comment} alt="" />
+        <TelegramIcon/>
+   
       </Link>
     </div>
   );

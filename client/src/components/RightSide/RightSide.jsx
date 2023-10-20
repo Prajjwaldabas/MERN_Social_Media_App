@@ -4,7 +4,8 @@ import "./RightSide.css";
 import TrendCard from "../TrendCard/TrendCard";
 import ShareModal from "../ShareModal/ShareModal";
 import NavIcons from "../NavIcons/NavIcons";
-const RightSide = () => {
+import FollowingCard from "../followingCard/FollowingCard";
+const RightSide = ({location}) => {
   const [modalOpened, setModalOpened] = useState(false);
 
   return (
@@ -12,8 +13,9 @@ const RightSide = () => {
       {/* Side Navbar */}
 
       <NavIcons />
-      {/* TrendCard */}
-      <TrendCard />
+        <TrendCard />
+      
+  
 
       {/* Share buttong */}
       <button className="button r-button" onClick={() => setModalOpened(true)}>

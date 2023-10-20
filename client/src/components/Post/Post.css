@@ -11,6 +11,7 @@
 .Post>img{
     width: 100%;
     max-height: 20rem;
+    
     object-fit: cover;
     border-radius: 0.5rem;
 }
@@ -19,4 +20,13 @@
     display: flex;
     align-items: flex-start;
     gap: 1.5rem;
+}
+
+
+
+.liked {
+ 
+cursor: pointer;
+/* font-size: 30px; */
+   
 }

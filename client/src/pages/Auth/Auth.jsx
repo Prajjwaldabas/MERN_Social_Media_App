@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Auth.css";
-import Logo from "../../img/logo.png";
+import Logo from "../../img/S2.png";
 import { logIn, signUp } from "../../actions/AuthActions.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -57,11 +57,15 @@ const Auth = () => {
     <div className="Auth">
       {/* left side */}
 
-      <div className="a-left">
-        <img src={Logo} alt="" />
-
+      <div className="a-left ">
+       
+       <div className="flex aic jcc logo-text">
+       <img src={Logo} alt="" className="logo" />
+        <h1>tuck</h1>
+       </div>
+     
         <div className="Webname">
-          <h1>Social Media</h1>
+
           <h6>Explore the ideas throughout the world</h6>
         </div>
       </div>

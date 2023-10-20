@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 
 
 const FollowersCard = ({ location }) => {
+  console.log(location)
   const [modalOpened, setModalOpened] = useState(false);
   const [persons, setPersons] = useState([]);
   const { user } = useSelector((state) => state.authReducer.authData);
@@ -20,19 +21,25 @@ const FollowersCard = ({ location }) => {
   }, []);
 
   return (
-    <div className="FollowersCard">
+    <div  className="FollowersCard">
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
       <h3>People you may know</h3>
+
+      {!location ? (
+        <span onClick={() => setModalOpened(true)} className="orange-bold-text">Show more</span>
+      ) : (
+        ""
+      )}
 
       
       </div>
      
-     <div className= {`${modalOpened ? "flex-col" :  "people-container" }`}>
+     <div    className={`${location==='modal' ? "person":"people-container"}`} >
 
     
 
       {persons.map((person, id) => {
-        if (person._id !== user._id) return <User person={person} key={id} />;
+        if (person._id !== user._id) return <User person={person} key={id} location={location}/>;
       })}
 
     
@@ -40,15 +47,12 @@ const FollowersCard = ({ location }) => {
       <FollowersModal
         modalOpened={modalOpened}
         setModalOpened={setModalOpened}
+        location='modal'
       />
        </div>
 
        <div>
-       {!location ? (
-        <span onClick={() => setModalOpened(true)} className="orange-bold-text">Show more</span>
-      ) : (
-        ""
-      )}
+       
         
        </div>
      
