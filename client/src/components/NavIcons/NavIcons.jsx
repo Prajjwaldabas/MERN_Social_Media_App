@@ -16,7 +16,7 @@ const NavIcons = () => {
     <div className="navIcons">
       <Link to="../home">
       
-        <HomeIcon className="gradient-bg"/>
+        <HomeIcon className="nav-active"/>
       </Link>
       <Link to={`/profile/${user._id}`}>  <PersonIcon /></Link>
      <Link to=''>

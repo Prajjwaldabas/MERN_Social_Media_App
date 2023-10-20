@@ -112,16 +112,8 @@ gap: 10px;
 }
 
 .gradient-bg{
-  font-size: 3rem;
-  background-color: red;
-  background-image: var(--buttonBg);
-  background-size: 100%;
-  background-repeat: repeat;
+  fill: var(--buttonBg) !important;
 
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent; 
-  -moz-background-clip: text;
-  -moz-text-fill-color: transparent;
 }
 
 /* utilities classes */
