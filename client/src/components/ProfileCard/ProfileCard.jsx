@@ -9,6 +9,7 @@ import { useState ,useEffect} from "react";
 import { useParams } from "react-router-dom";
 
 import { getUserById } from "../../actions/UserAction";
+import Loader from "../Loader/Loader";
 
 
 const ProfileCard = ({location}) => {
@@ -21,16 +22,19 @@ const ProfileCard = ({location}) => {
     
     // console.log(user)
    
-
+const [loading,setLoading] = useState(false)
 
     useEffect(() => {
       const fetchData = async () => {
         if (location === "profilePage") {
+          setLoading(true)
           // console.log(location);
           try {
+
             const profileUser = await dispatch(getUserById(params.id));
             // console.log(profileUser)
             setUser(profileUser);
+            setLoading(false);
           } catch (error) {
          
             console.error(error);
@@ -62,7 +66,13 @@ const ProfileCard = ({location}) => {
 
   
 
-  return (
+  return ( <>
+  {
+    loading ? (<Loader/>):(
+
+
+  
+ 
     
     <div className="ProfileCard">
        
@@ -144,6 +154,9 @@ const ProfileCard = ({location}) => {
       )}
       
     </div>
+      )
+    }
+    </>
   );
 };
 

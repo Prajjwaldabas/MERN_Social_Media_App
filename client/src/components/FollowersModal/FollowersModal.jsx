@@ -1,9 +1,14 @@
 import React from "react";
-import { Modal, useMantineTheme } from "@mantine/core";
+import {  Modal, useMantineTheme } from "@mantine/core";
+import Loader from "../Loader/Loader";
+
 import FollowersCard from "../FollowersCard/FollowersCard";
 
-const FollowersModal = ({ modalOpened, setModalOpened ,location}) => {
+const FollowersModal = ({ modalOpened, setModalOpened, location}) => {
+  // const loading = useSelector((state) => state.authReducer.loading);
   const theme = useMantineTheme();
+
+
   return (
     <Modal
       overlayColor={
@@ -17,8 +22,9 @@ const FollowersModal = ({ modalOpened, setModalOpened ,location}) => {
       opened={modalOpened}
       onClose={() => setModalOpened(false)}
     >
-
-    <FollowersCard location='modal'  modalOpened={modalOpened}/>
+    
+        <FollowersCard location={location} modalOpened={modalOpened} />
+      
     </Modal>
   );
 };

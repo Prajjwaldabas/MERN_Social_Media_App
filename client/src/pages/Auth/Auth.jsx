@@ -4,7 +4,7 @@ import Logo from "../../img/S2.png";
 import { logIn, signUp } from "../../actions/AuthActions.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import Loader from "../../components/Loader/Loader";
 const Auth = () => {
   const initialState = {
     firstname: "",
@@ -163,7 +163,7 @@ const Auth = () => {
               type="Submit"
               disabled={loading}
             >
-              {loading ? "Loading..." : isSignUp ? "SignUp" : "Login"}
+              {loading ? <Loader/> : isSignUp ? "SignUp" : "Login"}
             </button>
           </div>
         </form>

@@ -3,22 +3,26 @@ import { useSelector, useDispatch } from "react-redux";
 import { followUser, unfollowUser } from "../../actions/UserAction";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Link } from "react-router-dom";
+import { Loader } from "@mantine/core";
 
 const User = ({ person,location }) => {
   console.log(location)
   const publicFolder = process.env.REACT_APP_PUBLIC_FOLDER;
   const { user } = useSelector((state) => state.authReducer.authData);
   const dispatch = useDispatch()
-  
+  const [loading,setLoading] = useState(false)
+
   const [following, setFollowing] = useState(
     person.followers.includes(user._id) 
   );
   const handleFollow = async () => {
     if (following) {
       try {
+        setLoading(true)
         await dispatch(unfollowUser(person._id, user));
        
         setFollowing(false);
+        setLoading(false)
         console.log(following)
       } catch (error) {
        
@@ -26,9 +30,11 @@ const User = ({ person,location }) => {
       }
     } else {
       try {
+        setLoading(true)
         await dispatch(followUser(person._id, user));
       
         setFollowing(true);
+        setLoading(false)
         console.log(following)
       } catch (error) {
  
@@ -62,7 +68,8 @@ const User = ({ person,location }) => {
  }
  onClick={handleFollow}
 >
- {following ? "Unfollow" : "Follow"}
+  {loading ? ("Loading...") :(following ? "Unfollow" : "Follow" )}
+ 
 </button>
       
        

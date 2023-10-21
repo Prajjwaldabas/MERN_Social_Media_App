@@ -102,7 +102,7 @@
 @media (max-width:768px) {
 
   .ProfileCard {
-    display: none;
+    display: flex;
     overflow: scroll;
   }
 

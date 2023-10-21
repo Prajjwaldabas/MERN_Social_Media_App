@@ -7,6 +7,7 @@ import {  getUser } from '../../api/UserRequests';
 import { useParams } from 'react-router-dom';
 import { getUserById } from '../../actions/UserAction';
 import { useDispatch } from 'react-redux';
+import { Loader } from '@mantine/core';
 
 
 const FollowingCard = () => {
@@ -18,24 +19,28 @@ const FollowingCard = () => {
     const authUser = useSelector((state) => state.authReducer.authData.user);
     const [user, setUser] = useState(authUser);
     const [modalOpened, setModalOpened] = useState(false);
-    
+    const [loading,setLoading] = useState(false)
     // console.log(user)
 
 
     useEffect(() => {
       const fetchData = async () => {
         if (params.id) {
+          setLoading(true)
         
           try {
             const profileUser = await dispatch(getUserById(params.id));
             // console.log(profileUser)
             setUser(profileUser);
+            setLoading(false)
           } catch (error) {
          
             console.error(error);
+            
           }
         } else {
           setUser(authUser);
+          setLoading(false)
         }
       };
   
@@ -53,8 +58,11 @@ const FollowingCard = () => {
 
   const [userData,setUserData] = useState("followers")
 
+
+
   useEffect(() => {
     const fetchDataForFollowersAndFollowing = async () => {
+      setLoading(true)
      
       const followerDataPromises = user.followers.map(async (followerId) => {
         const follower = await getUser(followerId);
@@ -74,12 +82,20 @@ const FollowingCard = () => {
 
       setFollowersData(followers);
       setFollowingData(following);
+      setLoading(false)
     };
 
     fetchDataForFollowersAndFollowing();
   }, [user.followers, user.following]);
 
-  return (
+  return (<div className='flex jcc aic w-100 '>
+
+    {
+      loading ? ( <Loader/>):(
+
+    
+ 
+
     <div className='followingCard '>
         
         <div className='flex  w-100 jcsa p-10 aic g-5'>
@@ -103,12 +119,9 @@ const FollowingCard = () => {
     
     { userData === "followers" ? (
  followersData.map((following, id) => {
-    
-    
+  
   return   <User person={following.data} location='modal' key={id} />
-  
-  
-   
+
   })
 
     ) :( 
@@ -132,6 +145,10 @@ const FollowingCard = () => {
    </div>
 
 
+    </div>
+
+)
+}
     </div>
   )
 }

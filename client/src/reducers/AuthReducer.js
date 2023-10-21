@@ -21,6 +21,13 @@ const authReducer = (state = { authData: null, loading: false, error: false, upd
       case "UPDATING_FAIL":
       return {...state, updateLoading: true, error: true}
 
+      case "GET_ALL_USERS_START":
+      return {...state, loading: true,error: false}
+
+
+      case "GET_ALL_USERS_SUCCESS":
+      return {...state, loading: false, error: false}
+
 
 
     case "LOG_OUT":
