@@ -9,7 +9,7 @@ import SmsIcon from '@mui/icons-material/Sms';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import { useEffect } from "react";
 import { getUserById } from "../../actions/UserAction";
-
+import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import Loader from "../Loader/Loader";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
@@ -83,10 +83,10 @@ const formattedDate = `${day} ${monthNames[monthIndex]}, ${year}`;
 
 <div> 
 
-<div className="flex g-3px " >
+<Link to={`/profile/${data.userId}`}   className="flex g-3px " >
 <span className="fwb fs-13">{profileUser?.firstname}</span>
 <span className="fwb fs-13">{profileUser?.lastname}</span>
-  </div> 
+  </Link> 
     
 
       <div>
@@ -106,6 +106,13 @@ const formattedDate = `${day} ${monthNames[monthIndex]}, ${year}`;
 
 
 </div >
+
+<div className="detail">
+        {/* <span>
+          <b>{data.name} </b>
+        </span> */}
+        <span>{data.desc}</span>
+      </div>
      
       <img
         src={data.image ? process.env.REACT_APP_PUBLIC_FOLDER + data.image : ""}
@@ -131,12 +138,7 @@ const formattedDate = `${day} ${monthNames[monthIndex]}, ${year}`;
       <span style={{ color: "var(--gray)", fontSize: "12px" }}>
         {likes} likes
       </span>
-      <div className="detail">
-        <span>
-          <b>{data.name} </b>
-        </span>
-        <span>{data.desc}</span>
-      </div>
+     
     </div>
 
 )
