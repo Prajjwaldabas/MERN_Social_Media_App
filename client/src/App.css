@@ -143,6 +143,12 @@ border: none;
 .fs-20{
   font-size: 20px;
 }
+.fs-13{
+  font-size: 13px;
+}
+.fs-10{
+  font-size: 10px;
+}
 .fwb{
   font-weight: bold;
 }
@@ -181,6 +187,9 @@ border: none;
 .g-3{
   gap: 3rem;
 }
+.g-3px{
+  gap: 3px;
+}
 .pt-1{
 padding-top: 1rem;
 }
@@ -210,6 +219,9 @@ padding-top: 1rem;
 .cp{
   cursor: pointer;
  
+}
+.grey{
+  color: rgb(176, 176, 176);
 }
 
 button{
