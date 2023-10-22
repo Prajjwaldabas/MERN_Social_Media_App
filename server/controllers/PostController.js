@@ -49,7 +49,7 @@ export const deletePost = async (req, res) => {
  
   const id = req.params.id;
   const { userId } = req.body;
-console.log(userId)
+
   try {
   
     const post = await PostModel.findById(id);
@@ -58,7 +58,10 @@ console.log(userId)
       await post.deleteOne();
       res.status(200).json("Post deleted.");
     } else {
-      res.status(403).json("Action forbidden prajjwal");
+      console.log("userId",userId)
+console.log(req.body,"body")
+console.log(id)
+      res.status(403).json(`Action forbidden prajjwal ${post.userId} , ${userId},${id}` );
     }
   } catch (error) {
     res.status(500).json(error);
