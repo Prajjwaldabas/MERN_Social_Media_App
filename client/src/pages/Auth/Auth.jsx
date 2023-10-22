@@ -14,10 +14,11 @@ const Auth = () => {
     confirmpass: "",
   };
   let loading = useSelector((state) => state.authReducer.loading);
-
+  let errorMsg = useSelector((state) => state.authReducer.error);
   // loading = false;
-
+  // errorMsg=false;
   console.log(loading)
+  console.log(errorMsg)
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isSignUp, setIsSignUp] = useState(false);
@@ -36,8 +37,15 @@ const Auth = () => {
 
   // handle Change in input
   const handleChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+    if (e.target.name === "username") {
+      // Convert the username to lowercase
+      const lowercaseUsername = e.target.value.toLowerCase();
+      setData({ ...data, [e.target.name]: lowercaseUsername });
+    } else {
+      setData({ ...data, [e.target.name]: e.target.value });
+    }
   };
+  
 
   // Form Submission
   const handleSubmit = (e) => {
@@ -129,7 +137,20 @@ const Auth = () => {
                 onChange={handleChange}
               />
             )}
+
+           
           </div>
+          {errorMsg && 
+            
+            <span  style={{
+              color: "red",
+              fontSize: "12px",
+              alignSelf: "flex-end",
+              marginRight: "5px",
+              display: errorMsg ? "block" : "none",
+            }}>Wrong Email or Password!</span>
+
+            }
 
           <span
             style={{

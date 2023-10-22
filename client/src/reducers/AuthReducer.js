@@ -1,4 +1,4 @@
-const authReducer = (state = { authData: null, loading: false, error: false, updateLoading: false },action) => {
+const authReducer = (state = { authData: null, loading: false, error: false, updateLoading: false, },action) => {
   switch (action.type) {
     case "AUTH_START":
       return {...state, loading: true, error: false };
@@ -7,10 +7,18 @@ const authReducer = (state = { authData: null, loading: false, error: false, upd
 
       return {...state,  authData: action.data, loading: false, error: false };
 
-
+      case "LOGIN_FAIL":
+      return {...state, loading: false, error: true };
 
       case "AUTH_FAIL":
       return {...state, loading: false, error: true };
+
+
+
+   
+
+
+
     case "UPDATING_START":
       return {...state, updateLoading: true , error: false}
     case "UPDATING_SUCCESS":
@@ -19,7 +27,7 @@ const authReducer = (state = { authData: null, loading: false, error: false, upd
     
     
       case "UPDATING_FAIL":
-      return {...state, updateLoading: true, error: true}
+      return {...state, updateLoading: true, error: false}
 
       case "GET_ALL_USERS_START":
       return {...state, loading: true,error: false}

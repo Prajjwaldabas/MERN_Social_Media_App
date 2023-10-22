@@ -18,14 +18,16 @@ const ProfileCard = ({location}) => {
     const params = useParams()
     const dispatch = useDispatch();
     const authUser = useSelector((state) => state.authReducer.authData.user);
-    const [user, setUser] = useState(authUser);
+    const [user, setUser] = useState();
     
-    // console.log(user)
+    console.log(location)
    
 const [loading,setLoading] = useState(false)
 
     useEffect(() => {
+      
       const fetchData = async () => {
+      
         if (location === "profilePage") {
           setLoading(true)
           // console.log(location);
@@ -39,7 +41,9 @@ const [loading,setLoading] = useState(false)
          
             console.error(error);
           }
-        } else {
+        } 
+        
+        else {
           setUser(authUser);
         }
       };
@@ -147,7 +151,7 @@ const [loading,setLoading] = useState(false)
 
         
         <span>
-          <Link to={`/profile/${user._id}`} style={{ textDecoration: "none", color: "rgb(107 82 178)" }}>
+          <Link to={`/profile/${user?._id}`} style={{ textDecoration: "none", color: "rgb(107 82 178)" }}>
             My Profile
           </Link>
         </span>

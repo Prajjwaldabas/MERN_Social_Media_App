@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./Post.css";
 
-import { likePost } from "../../api/PostsRequests";
+import {  likePost } from "../../api/PostsRequests";
+import { deletePostById } from "../../actions/PostsAction";
 import { useSelector } from "react-redux";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -60,7 +61,15 @@ const year = date.getFullYear();
 
 const formattedDate = `${day} ${monthNames[monthIndex]}, ${year}`;
 
-
+const handleDelete = async () => {
+  try {
+    // Make the API request to delete the post
+    await dispatch(deletePostById(data._id,user._id));
+    console.log(data._id);
+  } catch (error) {
+    console.error('Error deleting the post:', error);
+  }
+};
 
   
   const handleLike = () => {
@@ -79,7 +88,7 @@ const formattedDate = `${day} ${monthNames[monthIndex]}, ${year}`;
 
     
 <div className="flex aic g-10">
-<img src={profileUser?.profilePicture?process.env.REACT_APP_PUBLIC_FOLDER + profileUser.profilePicture : "" } alt=""  className="logo"/>
+<img src={profileUser?.profilePicture?process.env.REACT_APP_PUBLIC_FOLDER + profileUser.profilePicture : process.env.REACT_APP_PUBLIC_FOLDER + "defaultProfile.png" } alt=""  className="logo"/>
 
 <div> 
 
@@ -101,7 +110,7 @@ const formattedDate = `${day} ${monthNames[monthIndex]}, ${year}`;
 
 
       <div>
-  <MoreHorizIcon className="cp"/>
+  <MoreHorizIcon className="cp"  onClick={handleDelete}/>
 </div>
 
 

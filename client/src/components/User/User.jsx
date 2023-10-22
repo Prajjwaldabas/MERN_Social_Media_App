@@ -19,7 +19,7 @@ const User = ({ person,location }) => {
     if (following) {
       try {
         setLoading(true)
-        await dispatch(unfollowUser(person._id, user));
+         dispatch(unfollowUser(person._id, user));
        
         setFollowing(false);
         setLoading(false)
@@ -31,7 +31,7 @@ const User = ({ person,location }) => {
     } else {
       try {
         setLoading(true)
-        await dispatch(followUser(person._id, user));
+         dispatch(followUser(person._id, user));
       
         setFollowing(true);
         setLoading(false)
@@ -45,9 +45,16 @@ const User = ({ person,location }) => {
   
   return (
     <div className={`${location==='modal' ? "flex jcsb aic": "follower"}`}>
+
       <Link to={`/profile/${person._id}`}  className={`${location==='modal' ? "flex g-10 aic": "person-mob jcc"}`}  >
+
       {!person.profilePicture ? (
-  <AccountCircleIcon style={{height:"3.2rem",width:"3.2rem"}}/>
+         <img
+         src={publicFolder + "defaultProfile.png"}
+         alt="profile"
+         className="followerImage"
+       />
+  // <AccountCircleIcon style={{height:"3.2rem",width:"3.2rem"}}/>
 ) : (
   <img
     src={publicFolder + person.profilePicture}

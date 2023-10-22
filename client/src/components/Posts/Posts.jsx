@@ -19,9 +19,14 @@ const Posts = () => {
     dispatch(getTimelinePosts(user._id));
   }, []);
   if(!posts) return 'No Posts';
+
   if(params.id) posts = posts.filter((post)=> post.userId===params.id)
   return (
     <div className="Posts">
+
+      {posts.length === 0 && 
+      <span style={{margin:"0 auto"}}>No posts added yet!</span>
+      } 
       {loading
         ? <Loader/>
         : posts.map((post, id) => {

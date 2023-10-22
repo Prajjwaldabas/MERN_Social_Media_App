@@ -76,7 +76,15 @@
     align-items: center ;
 
 }
+.person{
 
+    display: flex;
+    justify-content: center;
+ 
+   flex-direction: column;
+   gap: 10px;
+   overflow-y: auto;
+}
 
 @media (max-width:768px) {
 

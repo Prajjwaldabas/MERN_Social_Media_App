@@ -41,6 +41,7 @@ const Home = () => {
 
       if (tokenData.exp < currentTime) {
         dispatch(logout())
+        console.log("token has expired")
       }
     }
   }, []);
