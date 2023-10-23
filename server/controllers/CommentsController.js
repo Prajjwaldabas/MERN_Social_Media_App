@@ -1,29 +1,39 @@
 // create comments 
-export const createComment = async(req,res)=>{
+import CommentModel from '../models/comments.js'
+import PostModel from '../models/postModel.js';
 
+export const createComment = async (req, res) => {
     try {
-      const { content, userId, postId, parentCommentId } = req.body;
+      const { content, userId, postId, parentComment } = req.body;
   
-      const comment = new CommentModel(
-        {
-  content,
-  user:userId,
-  post:postId,
-  parentCommentId:parentCommentId
-        }
-      )
+      const comment = new CommentModel({
+        content,
+        user: userId,
+        post: postId,
+        parentComment,
+      });
   
-      const savedComment = await comment.save()
+      const savedComment = await comment.save();
   
-      await PostModel.findByIdAndUpdate(postId,{$push:{comments:savedComment._id}});
+      if (parentComment) {
+        // If it's a child comment, update the parent comment to include this child comment.
+        await CommentModel.findByIdAndUpdate(parentComment, {
+          $push: { children: savedComment._id },
+        });
+      } else {
+        // If it's a top-level comment, update the post to include this comment.
+        await PostModel.findByIdAndUpdate(postId, {
+          $push: { comments: savedComment._id },
+        });
+      }
   
       res.status(201).json(savedComment);
-      
     } catch (error) {
+      console.log(error);
       res.status(500).json(error);
     }
+  };
   
-  }
   
   
   // get comments
@@ -50,7 +60,7 @@ export const createComment = async(req,res)=>{
       const commentId = req.params.id;
       const { content } = req.body;
   
-      const updatedComment = await Comment.findByIdAndUpdate(commentId, { content }, { new: true });
+      const updatedComment = await CommentModel.findByIdAndUpdate(commentId, { content }, { new: true });
   
       res.status(200).json(updatedComment);
     } catch (error) {
@@ -59,13 +69,34 @@ export const createComment = async(req,res)=>{
   };
   
   // delete a comment
-  export  const deleteComment = async (req, res) => {
+ export const deleteComment = async (req, res) => {
+    const  commentId  = req.params.commentId;
     try {
-      const commentId = req.params.id;
-      await Comment.findByIdAndDelete(commentId);
-  
-      res.status(200).json('Comment deleted');
+      await deleteCommentAndChildren(commentId);
+      return res.status(204).send();
     } catch (error) {
-      res.status(500).json(error);
+      console.error(error);
+      return res.status(500).send("Error deleting comment");
     }
   };
+  
+
+  //delete child along with parent comment
+
+  const deleteCommentAndChildren = async (commentId) => {
+    // Find the comment and its children
+    const comment = await CommentModel.findById(commentId);
+    if (!comment) return;
+  
+    // Delete the comment
+    await CommentModel.findByIdAndDelete(commentId);
+  
+    // Recursively delete children
+    for (const childId of comment.children) {
+        
+        
+      await deleteCommentAndChildren(childId);
+    }
+  };
+
+  

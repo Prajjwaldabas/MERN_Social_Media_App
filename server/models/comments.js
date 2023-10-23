@@ -4,7 +4,7 @@ const commentSchema = new mongoose.Schema({
 
 
     user: { type: mongoose.Schema.Types.ObjectId,
-         ref: 'Users'
+         ref: 'User'
         },
 
     parentComment: {
@@ -14,8 +14,16 @@ const commentSchema = new mongoose.Schema({
 
     post: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Posts'
-    }
+        ref: 'Post'
+    },
+
+    children: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Comment',
+        },
+      ],
+
 
 },
 {

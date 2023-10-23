@@ -22,6 +22,6 @@ const postSchema = mongoose.Schema(
   }
 );
 
-var PostModel = mongoose.model("Posts", postSchema);
+var PostModel = mongoose.model("Post", postSchema);
 
 export default PostModel;
