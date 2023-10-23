@@ -5,6 +5,12 @@ const postSchema = mongoose.Schema(
     userId: { type: String, required: true },
     desc: {type: String, required : true},
     likes: [],
+    comments: [
+      {
+          type:  mongoose.Schema.Types.ObjectId,
+          ref: 'Comment'
+      }
+  ],
     createdAt: {
       type: Date,
       default: new Date(),

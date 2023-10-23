@@ -1,7 +1,7 @@
 import PostModel from "../models/postModel.js";
 import UserModel from "../models/userModel.js";
 import mongoose from "mongoose";
-
+import CommentModel from '../models/comments.js'
 // creating a post
 
 export const createPost = async (req, res) => {
@@ -125,3 +125,8 @@ export const getTimelinePosts = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+
+
+
+

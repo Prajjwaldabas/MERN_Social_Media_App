@@ -30,3 +30,66 @@ cursor: pointer;
 /* font-size: 30px; */
    
 }
+
+#PostSelect{
+    height: auto;
+    width: 100px;
+    display: flex;
+   justify-content: center;
+    padding: 10px ;
+    /* padding-left: 10px; */
+    flex-direction: column;
+    gap: 10px;
+    border-radius:10px;
+    background-color: rgb(255, 252, 252);
+    color: rgb(102, 101, 101);
+    font-size: 14px;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+
+    transition: all ease-in-out 1s;
+    font-weight: 500;
+  
+    -moz-box-shadow: 0 0 5px #999;
+-webkit-box-shadow: 0 0 5px #999;
+box-shadow: 0 0 5px #999;
+
+}
+
+#PostSelect p:hover{
+    transition: all ease-in-out 0.5s;
+   color:black;
+   font-weight: 600;
+
+}
+
+
+.greyLine{
+    height: 1px;
+    background-color: rgb(216, 216, 216);
+}
+
+.comments-container input{
+
+        background-color: var(--inputColor);
+        border-radius: 10px;
+        padding: 10px;
+        font-size: 17px;
+        border: none;
+        outline: none;
+        flex-grow: 1;
+    
+}
+
+
+@media (max-width:768px) {
+    .Post>img{
+        max-height: 25rem;
+    }
+
+ 
+}
+
+
+

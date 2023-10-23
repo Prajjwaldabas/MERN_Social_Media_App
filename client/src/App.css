@@ -21,6 +21,10 @@
   padding: 0rem 1rem;
 }
 
+p{
+  margin: 0;
+  padding: 0;
+}
 /* blur */
 .blur {
   position: absolute;
@@ -104,6 +108,9 @@ gap: 10px;
 
 .nav-active{
   color: rgb(107 82 178);
+  border-bottom: 2px solid rgb(107 82 178);
+  /* background-color: rgb(251, 250, 250); */
+  
 }
 
 .navIcons a svg{
@@ -233,4 +240,8 @@ a{
   text-decoration: none;
   color: black;
 
+}
+
+.mantine-5rr5mu {
+  height: auto;
 }

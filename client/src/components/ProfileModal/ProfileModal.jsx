@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { uploadImage } from "../../actions/UploadAction";
 import { updateUser } from "../../actions/UserAction";
+import Loader from "../Loader/Loader";
 
 const ProfileModal = ({ modalOpened, setModalOpened, data }) => {
   const theme = useMantineTheme();
@@ -14,6 +15,8 @@ const ProfileModal = ({ modalOpened, setModalOpened, data }) => {
   const [coverImage, setCoverImage] = useState(null);
   const dispatch = useDispatch();
   const param = useParams();
+  const {updateLoading} = useSelector((state)=>state.authReducer.authData)
+  console.log(updateLoading)
 
   const { user } = useSelector((state) => state.authReducer.authData);
   const handleChange = (e) => {
@@ -146,7 +149,10 @@ const ProfileModal = ({ modalOpened, setModalOpened, data }) => {
         <button className="button infoButton" type="submit">
           Update
         </button>
+
+        {updateLoading && <Loader/>}
       </form>
+
     </Modal>
   );
 };

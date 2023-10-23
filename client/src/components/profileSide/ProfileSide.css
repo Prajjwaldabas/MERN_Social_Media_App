@@ -5,4 +5,15 @@
     align-items: center;
     overflow: auto;
     grid-area: leftside;
+    /* position: fixed; */
+}
+
+
+@media (max-width:768px) {
+
+    .ProfileSide{
+        
+     position: relative;
+    }
+    
 }

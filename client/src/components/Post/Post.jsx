@@ -17,20 +17,21 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 const Post = ({ data }) => {
   const { user } = useSelector((state) => state.authReducer.authData);
-  const [liked, setLiked] = useState(data.likes.includes(user._id));
-  const [likes, setLikes] = useState(data.likes.length)
+  const [liked, setLiked] = useState(data?.likes.includes(user._id));
+  const [likes, setLikes] = useState(data?.likes.length)
   const [profileUser,setProfileUser]=useState(null)
   const [loading,setLoading] = useState(false)
+const [isOpened,setIsOpened] = useState(false)
   const dispatch = useDispatch()
 
-
+const [showComment,setShowComment] = useState(false)
 
   useEffect(()=>{
 
     const fetchProfileUser = async ()=>{
       try {
         setLoading(true)
-        const proUser = await dispatch(getUserById(data.userId));
+        const proUser = await dispatch(getUserById(data?.userId));
        
         setProfileUser(proUser)
         setLoading(false)
@@ -52,7 +53,7 @@ const monthNames = [
 ];
 
 
-const timestamp = data.createdAt;
+const timestamp = data?.createdAt;
 const date = new Date(timestamp);
 
 const day = date.getDate();
@@ -64,8 +65,8 @@ const formattedDate = `${day} ${monthNames[monthIndex]}, ${year}`;
 const handleDelete = async () => {
   try {
     // Make the API request to delete the post
-    await dispatch(deletePostById(data._id,user._id));
-    console.log(data._id);
+    await dispatch(deletePostById(data?._id,user._id));
+    console.log(data?._id);
   } catch (error) {
     console.error('Error deleting the post:', error);
   }
@@ -73,7 +74,7 @@ const handleDelete = async () => {
 
   
   const handleLike = () => {
-    likePost(data._id, user._id);
+    likePost(data?._id, user._id);
     setLiked((prev) => !prev);
     liked? setLikes((prev)=>prev-1): setLikes((prev)=>prev+1)
   };
@@ -92,7 +93,7 @@ const handleDelete = async () => {
 
 <div> 
 
-<Link to={`/profile/${data.userId}`}   className="flex g-3px " >
+<Link to={`/profile/${data?.userId}`}   className="flex g-3px " >
 <span className="fwb fs-13">{profileUser?.firstname}</span>
 <span className="fwb fs-13">{profileUser?.lastname}</span>
   </Link> 
@@ -109,8 +110,32 @@ const handleDelete = async () => {
       </div>
 
 
-      <div>
-  <MoreHorizIcon className="cp"  onClick={handleDelete}/>
+      <div style={{position:"relative"}}>
+  <MoreHorizIcon className="cp"  onClick={()=>setIsOpened(!isOpened)}   />
+
+  {
+  isOpened && (
+   
+      <div name="" id="PostSelect" >
+
+      <p value="" className="cp" > Save Post</p>
+      <div className="greyLine"></div>
+
+      {data?.userId === user._id 
+      && (
+<p value="" onClick={handleDelete} className="cp"> Delete Post </p>
+      )
+      
+      }
+
+      
+      
+       
+      </div>
+
+  )
+    }
+
 </div>
 
 
@@ -120,11 +145,11 @@ const handleDelete = async () => {
         {/* <span>
           <b>{data.name} </b>
         </span> */}
-        <span>{data.desc}</span>
+        <span>{data?.desc}</span>
       </div>
      
       <img
-        src={data.image ? process.env.REACT_APP_PUBLIC_FOLDER + data.image : ""}
+        src={data?.image ? process.env.REACT_APP_PUBLIC_FOLDER + data?.image : ""}
         alt=""
       />
 
@@ -137,8 +162,10 @@ const handleDelete = async () => {
 
         }
       
-       <SmsIcon className="liked"/>
-       <TelegramIcon className="liked"/>
+       <SmsIcon className="liked"  onClick={()=>setShowComment(!showComment)}/>
+       <TelegramIcon className="liked" />
+
+
       
     
      
@@ -147,7 +174,23 @@ const handleDelete = async () => {
       <span style={{ color: "var(--gray)", fontSize: "12px" }}>
         {likes} likes
       </span>
+
+      { showComment && 
+         <div className="comments-container flex jcsb g-10">
+
+         <img src={user?.profilePicture ? process.env.REACT_APP_PUBLIC_FOLDER + user?.profilePicture : process.env.REACT_APP_PUBLIC_FOLDER + "defaultProfile.png"  } alt="" className="logo" />
+         <input type="text"  placeholder="Write a comment..." name="comment" />
+   
+   
+         <button className="button ps-button" >Post</button>
+        </div>
+
+      }
      
+  
+
+
+
     </div>
 
 )
