@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 
-const API = axios.create({ baseURL: 'https://mern-social-media-app-server-9yz2.onrender.com' });
+const API = axios.create({ baseURL: 'http://localhost:5000' });
 
 API.interceptors.request.use((req) => {
     if (localStorage.getItem('profile')) {
@@ -14,3 +14,9 @@ API.interceptors.request.use((req) => {
 export const getTimelinePosts= (id)=> API.get(`/posts/${id}/timeline`);
 export const likePost=(id, userId)=>API.put(`posts/${id}/like`, {userId: userId})
 export const deletePost = (id,userId) => API.delete(`posts/${id}/delete`, { params: { userId: userId }} )
+
+
+export const addComment = (userId, postId, content,parentComment) => API.post("comments/", {  userId, postId,content,parentComment });
+export const getComments = (postId) => API.get(`/comments/${postId}`);
+
+

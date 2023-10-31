@@ -40,9 +40,11 @@ export const createComment = async (req, res) => {
   
   export  const getComments = async (req,res)=>{
     try {
-      const postId = req.params.id;
+      const postId = req.params.postId;
+      // console.log(postId)
   
       const comments = await CommentModel.find({post:postId}).populate('user');
+      console.log("comments is here",comments)
   
       res.status(200).json(comments);
   

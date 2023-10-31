@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Post.css";
 
-import {  likePost } from "../../api/PostsRequests";
+import {  addComment, getComments, likePost } from "../../api/PostsRequests";
 import { deletePostById } from "../../actions/PostsAction";
 import { useSelector } from "react-redux";
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -14,6 +14,8 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import Loader from "../Loader/Loader";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import Comments from "../Comments/Comments";
+
 
 const Post = ({ data }) => {
   const { user } = useSelector((state) => state.authReducer.authData);
@@ -22,9 +24,18 @@ const Post = ({ data }) => {
   const [profileUser,setProfileUser]=useState(null)
   const [loading,setLoading] = useState(false)
 const [isOpened,setIsOpened] = useState(false)
+
+
+
   const dispatch = useDispatch()
 
 const [showComment,setShowComment] = useState(false)
+const [comment,setComment]=useState("")
+const[postComments,setPostComments] = useState([])
+
+
+
+
 
   useEffect(()=>{
 
@@ -44,6 +55,29 @@ const [showComment,setShowComment] = useState(false)
   
   },[])
  
+
+  // get all comments related to the posts
+  // console.log(data)
+
+useEffect(()=>{
+  const RetrieveComments = async( )=>{
+    try {
+      // console.log(data)
+      const response = await getComments(data?._id)
+      const commentsData = response.data
+    // console.log(response.data)
+    setPostComments(commentsData)
+   
+console.log(postComments)
+    
+    } catch (error) {
+      console.log(error)
+    }
+    }
+
+    RetrieveComments()
+
+},[])
 
 
 
@@ -71,6 +105,36 @@ const handleDelete = async () => {
     console.error('Error deleting the post:', error);
   }
 };
+
+
+
+
+
+
+
+//add a comment
+const handleCreateComment = async () => {
+  try {
+    setLoading(true)
+    const response = await addComment(user._id, data?._id, comment);
+
+    if (response.status === 201) {
+     
+      const createdComment = response.data;
+      console.log("Comment created:", createdComment);
+      setComment("")
+      setLoading(false)
+
+    } 
+     
+    
+  } catch (error) {
+    console.error("Error creating comment:", error);
+  }
+};
+
+
+
 
   
   const handleLike = () => {
@@ -176,13 +240,36 @@ const handleDelete = async () => {
       </span>
 
       { showComment && 
-         <div className="comments-container flex jcsb g-10">
+         <div className="comments-container flex jcsb g-10 fd-col">
+
+{postComments
+  ?.filter((comment) => !comment.parentComment) // Filter out top-level comments
+  .map((comment, key) => {
+
+ return   <div key={key}  >
+      <Comments comment={comment} postComments={postComments}  isFirstChildOfFirstParent={key === 0}  showComment={showComment} data={data}/>
+    </div>
+  }
+
+  )
+}
+
+
+
+
+         
+         
+<div className= "flex jcsb g-10">
+
 
          <img src={user?.profilePicture ? process.env.REACT_APP_PUBLIC_FOLDER + user?.profilePicture : process.env.REACT_APP_PUBLIC_FOLDER + "defaultProfile.png"  } alt="" className="logo" />
-         <input type="text"  placeholder="Write a comment..." name="comment" />
+         <input type="text"  placeholder="Write a comment..." name="comment" value={comment} onChange={(e)=>setComment(e.target.value)}/>
    
+ 
    
-         <button className="button ps-button" >Post</button>
+         <button className="button ps-button" onClick={handleCreateComment}>Post</button>
+         </div>
+ 
         </div>
 
       }

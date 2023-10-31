@@ -77,11 +77,67 @@ box-shadow: 0 0 5px #999;
         padding: 10px;
         font-size: 17px;
         border: none;
+       
         outline: none;
         flex-grow: 1;
     
 }
 
+
+.comments-container > div{
+
+    /* border: 1px solid red; */
+    overflow-y: auto;
+}
+
+.reply-container {
+    left: 0;
+    width: 170px;
+    justify-content: space-between;
+ 
+    bottom: -1.5rem;
+    position: absolute;
+    align-items: self-start;
+   
+    display: flex;
+    padding: 0 10px;
+}
+
+
+
+.comment-profile{
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+    padding: 10px;
+   
+}
+
+.comment{
+    background-color: var(--inputColor);
+    border-radius: 10px;
+    padding: 10px;
+    position: relative;
+    margin-bottom: 2rem;
+  
+    
+}
+/* .child-comments{
+    margin-left: 6rem;
+} */
+
+.reply-container span{
+    font-size: 13px;
+ 
+    font-weight: 600; 
+  color: rgb(125, 125, 125);
+cursor: pointer;
+ padding: 0;
+align-items: start;
+justify-content: start;
+    display: flex;
+
+}
 
 @media (max-width:768px) {
     .Post>img{
@@ -90,6 +146,8 @@ box-shadow: 0 0 5px #999;
 
  
 }
+
+
 
 
 
