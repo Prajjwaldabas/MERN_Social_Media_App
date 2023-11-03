@@ -1,9 +1,9 @@
-import e from 'express';
+
 import React, { useState } from 'react';
 import { addComment } from '../../api/PostsRequests';
 import { useSelector } from 'react-redux';
 const Comments = ({ comment, postComments, isFirstChildOfFirstParent,data }) => {
-console.log(typeof(setParentComment))
+// console.log(typeof(setParentComment))
 
 const { user } = useSelector((state) => state.authReducer.authData);
     const [showChildComments, setShowChildComments] = useState(false);
@@ -18,8 +18,17 @@ const { user } = useSelector((state) => state.authReducer.authData);
 
     }
 
-    const handlePostComment =()=>{
-addComment(user._id, data?._id,commentValue,parentComment)
+    const handlePostComment = async()=>{
+        setCommentValue("")
+        try {
+        const response= await addComment(user._id, data?._id,commentValue,parentComment)
+        if(response.status===200){
+            console.log("reply comment created")
+        }
+        } catch (error) {
+            console.log(error)
+        }
+
     }
     return (
         <div>
@@ -66,7 +75,7 @@ addComment(user._id, data?._id,commentValue,parentComment)
                                 <input type="text"  
                                  placeholder={`Reply to ${comment?.user.firstname} ${ comment?.user.lastname}...`} 
                                  value={commentValue} 
-                                 onChange={()=>setCommentValue(e.target.vlaue)}/>
+                                 onChange={(e)=>setCommentValue(e.target.value)}/>
                                 <button className='button' onClick={handlePostComment}>Post</button>
                             </div>
                         }
