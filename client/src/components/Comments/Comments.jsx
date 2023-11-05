@@ -20,6 +20,7 @@ const { user } = useSelector((state) => state.authReducer.authData);
 
     const handlePostComment = async()=>{
         setCommentValue("")
+        setShowCommentInput(false)
         try {
         const response= await addComment(user._id, data?._id,commentValue,parentComment)
         if(response.status===200){
@@ -62,6 +63,8 @@ const { user } = useSelector((state) => state.authReducer.authData);
  
                             </span>
                         ) : ""}
+
+{/* {console.log(comment.children)} */}
                         
                         </div>
 
@@ -82,12 +85,19 @@ const { user } = useSelector((state) => state.authReducer.authData);
                 </div>
             </div>
             {comment?.children && comment?.children.length > 0 && showChildComments && (
+                
                 <div className="child-comments" style={commentStyle}>
+
+                 
                     {comment?.children.map((childId, index) => {
+{console.log(childId)}
+
+{console.log(postComments)}
                         const childComment = postComments.find((item) => item._id === childId);
+                        // {console.log(childComment)}
                         return (
                             <Comments
-                                key={childComment?._id}
+                                key={index}
                                 comment={childComment}
                                 postComments={postComments}
                                 isFirstChildOfFirstParent={isFirstChildOfFirstParent}
