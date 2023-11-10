@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { addComment } from '../../api/PostsRequests';
 import { useSelector } from 'react-redux';
+import Loader from '../Loader/Loader';
+
 const Comments = ({ comment, postComments, isFirstChildOfFirstParent,data }) => {
 // console.log(typeof(setParentComment))
 
@@ -10,6 +12,9 @@ const { user } = useSelector((state) => state.authReducer.authData);
     const [showCommentInput,setShowCommentInput] = useState(false)
     const [commentValue,setCommentValue] = useState("")
     const [parentComment,setParentComment] = useState(null);
+    const [localComments, setLocalComments] = useState(postComments);
+    const[loading,setLoading] = useState(false)
+
     const commentStyle = isFirstChildOfFirstParent ? { marginLeft: '3rem' } : {};
 
     const handleReply = ()=>{
@@ -18,20 +23,34 @@ const { user } = useSelector((state) => state.authReducer.authData);
 
     }
 
-    const handlePostComment = async()=>{
-        setCommentValue("")
-        setShowCommentInput(false)
+    const handlePostComment = async () => {
+       
+        setCommentValue("");
+        setShowCommentInput(false);
         try {
-        const response= await addComment(user._id, data?._id,commentValue,parentComment)
-        if(response.status===200){
-            console.log("reply comment created")
-        }
+            setLoading(true)
+          const response = await addComment(user._id, data?._id, commentValue, parentComment);
+          if (response.status === 200) {
+            const newComment = response.data;
+      
+            // Update the localComments state with the new comment
+            setLocalComments([...localComments, newComment]);
+            setLoading(false)
+      
+            console.log("reply comment created");
+          }
         } catch (error) {
-            console.log(error)
+          console.log(error);
+          setLoading(false)
         }
+      };
 
-    }
-    return (
+      console.log(comment)
+      
+    return ( 
+
+
+         loading ? (<Loader/>) : (
         <div>
             <div className="flex g-3px fd-col" style={{ position: "relative" }}>
                 <div className="flex fd-col">
@@ -93,7 +112,7 @@ const { user } = useSelector((state) => state.authReducer.authData);
 {console.log(childId)}
 
 {console.log(postComments)}
-                        const childComment = postComments.find((item) => item._id === childId);
+                        const childComment = localComments.find((item) => item._id === childId);
                         // {console.log(childComment)}
                         return (
                             <Comments
@@ -109,6 +128,8 @@ const { user } = useSelector((state) => state.authReducer.authData);
                 </div>
             )}
         </div>
+         )
+                
     );
 };
 

@@ -3,36 +3,38 @@ import CommentModel from '../models/comments.js'
 import PostModel from '../models/postModel.js';
 
 export const createComment = async (req, res) => {
-    try {
+  try {
       const { content, userId, postId, parentComment } = req.body;
-  
+
       const comment = new CommentModel({
-        content,
-        user: userId,
-        post: postId,
-        parentComment,
+          content,
+          user: userId,
+          post: postId,
+          parentComment,
       });
-  
+
       const savedComment = await comment.save();
-  
+
       if (parentComment) {
-        // If it's a child comment, update the parent comment to include this child comment.
-        await CommentModel.findByIdAndUpdate(parentComment, {
-          $push: { children: savedComment._id },
-        });
+          await CommentModel.findByIdAndUpdate(parentComment, {
+              $push: { children: savedComment._id },
+          });
       } else {
-        // If it's a top-level comment, update the post to include this comment.
-        await PostModel.findByIdAndUpdate(postId, {
-          $push: { comments: savedComment._id },
-        });
+          await PostModel.findByIdAndUpdate(postId, {
+              $push: { comments: savedComment._id },
+          });
       }
-  
-      res.status(201).json(savedComment);
-    } catch (error) {
+
+      // It seems like the issue might be here
+      const populatedComment = await savedComment.populate('user').execPopulate();
+
+      res.status(201).json(populatedComment);
+  } catch (error) {
       console.log(error);
       res.status(500).json(error);
-    }
-  };
+  }
+};
+
   
   
   

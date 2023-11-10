@@ -31,7 +31,9 @@ const [isOpened,setIsOpened] = useState(false)
 
 const [showComment,setShowComment] = useState(false)
 const [comment,setComment]=useState("")
-const[postComments,setPostComments] = useState([])
+const [postComments, setPostComments] = useState(data?.comments || []);
+
+// const [localComments, setLocalComments] = useState(postComments);
 
 
 
@@ -67,8 +69,9 @@ useEffect(()=>{
       const commentsData = response.data
     // console.log(response.data)
     setPostComments(commentsData)
+    
    
-console.log(postComments)
+// console.log(postComments)
     
     } catch (error) {
       console.log(error)
@@ -77,7 +80,7 @@ console.log(postComments)
 
     RetrieveComments()
 
-},[])
+},[setPostComments])
 
 
 
@@ -115,23 +118,22 @@ const handleDelete = async () => {
 //add a comment
 const handleCreateComment = async () => {
   try {
-    setLoading(true)
+    setLoading(true);
     const response = await addComment(user._id, data?._id, comment);
 
     if (response.status === 201) {
-     
       const createdComment = response.data;
-      console.log("Comment created:", createdComment);
-      setComment("")
-      setLoading(false)
 
-    } 
-     
-    
+      // Update the postComments state with the new comment
+      setPostComments([...postComments, createdComment]);
+      setComment("");
+      setLoading(false);
+    }
   } catch (error) {
     console.error("Error creating comment:", error);
   }
 };
+
 
 
 
@@ -245,14 +247,19 @@ const handleCreateComment = async () => {
 {postComments
   ?.filter((comment) => !comment.parentComment) // Filter out top-level comments
   .map((comment, key) => {
+    return (
+      <div key={key}>
+        <Comments
+          comment={comment}
+          postComments={postComments}
+          isFirstChildOfFirstParent={key === 0}
+          showComment={showComment}
+          data={data}
+        />
+      </div>
+    );
+  })}
 
- return   <div key={key}  >
-      <Comments comment={comment} postComments={postComments}  isFirstChildOfFirstParent={key === 0}  showComment={showComment} data={data}/>
-    </div>
-  }
-
-  )
-}
 
 
 
