@@ -2,36 +2,40 @@
 import CommentModel from '../models/comments.js'
 import PostModel from '../models/postModel.js';
 
+
+
 export const createComment = async (req, res) => {
   try {
-      const { content, userId, postId, parentComment } = req.body;
+    const { content, userId, postId, parentComment } = req.body;
 
-      const comment = new CommentModel({
-          content,
-          user: userId,
-          post: postId,
-          parentComment,
+    const comment = new CommentModel({
+      content,
+      user: userId,
+      post: postId,
+      parentComment,
+    });
+
+    const savedComment = await comment.save();
+
+    if (parentComment) {
+      await CommentModel.findByIdAndUpdate(parentComment, {
+        $push: { children: savedComment._id },
       });
+    } else {
+      await PostModel.findByIdAndUpdate(postId, {
+        $push: { comments: savedComment._id },
+      });
+    }
 
-      const savedComment = await comment.save();
+    // Ensure that the 'user' field is populated before sending the response
+    const populatedComment = await CommentModel.findById(savedComment._id)
+      .populate('user')
+      .exec();
 
-      if (parentComment) {
-          await CommentModel.findByIdAndUpdate(parentComment, {
-              $push: { children: savedComment._id },
-          });
-      } else {
-          await PostModel.findByIdAndUpdate(postId, {
-              $push: { comments: savedComment._id },
-          });
-      }
-
-      // It seems like the issue might be here
-      const populatedComment = await savedComment.populate('user').execPopulate();
-
-      res.status(201).json(populatedComment);
+    res.status(201).json(populatedComment);
   } catch (error) {
-      console.log(error);
-      res.status(500).json(error);
+    console.log(error);
+    res.status(500).json(error);
   }
 };
 
