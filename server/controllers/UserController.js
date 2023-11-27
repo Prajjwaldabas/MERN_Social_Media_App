@@ -116,8 +116,7 @@ export const followUser = async (req, res) => {
   }
 };
 
-// Unfollow a User
-// changed
+
 export const unfollowUser = async (req, res) => {
   const id = req.params.id;
   const { _id } = req.body;
@@ -130,7 +129,6 @@ export const unfollowUser = async (req, res) => {
     try {
       const unFollowUser = await UserModel.findById(id)
       const unFollowingUser = await UserModel.findById(_id)
-
 
       if (unFollowUser.followers.includes(_id))
       {
