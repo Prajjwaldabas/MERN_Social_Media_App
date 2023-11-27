@@ -41,7 +41,8 @@ display: none;
 
     position: fixed;
     bottom: 0;
-    width: 90%;
+    left: 0;
+    width: 100%;
     justify-content: space-between;
     background: #f3f3f3;
     padding: 10px 0;

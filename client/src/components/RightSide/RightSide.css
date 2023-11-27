@@ -1,4 +1,7 @@
 .RightSide{
+    position: fixed;
+    right: 38px;
+    width: 400px;
     display: flex;
     flex-direction: column;
     gap: 2rem;

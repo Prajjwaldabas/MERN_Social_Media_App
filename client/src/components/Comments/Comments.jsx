@@ -24,26 +24,42 @@ const { user } = useSelector((state) => state.authReducer.authData);
     }
 
     const handlePostComment = async () => {
-       
         setCommentValue("");
         setShowCommentInput(false);
         try {
-            setLoading(true)
+          setLoading(true);
           const response = await addComment(user._id, data?._id, commentValue, parentComment);
-          if (response.status === 200) {
+          if (response.status === 201) {
             const newComment = response.data;
       
-            // Update the localComments state with the new comment
-            setLocalComments([...localComments, newComment]);
-            setLoading(false)
+            // Log the previous and updated localComments
+            console.log("Previous localComments:", localComments);
+            setLocalComments((prevComments) => [...prevComments, newComment]);
+            console.log("Updated localComments:", localComments);
       
-            console.log("reply comment created");
+            // If it's a child comment, update the parent comment's children array
+            if (parentComment) {
+              setLocalComments((prevComments) =>
+                prevComments.map((comment) =>
+                  comment._id === parentComment
+                    ? { ...comment, children: [...comment.children, newComment._id] }
+                    : comment
+                )
+              );
+            }
+      
+            setLoading(false);
+      
+            console.log("Reply comment created");
           }
         } catch (error) {
           console.log(error);
-          setLoading(false)
+          setLoading(false);
         }
       };
+      
+    
+    
 
       console.log(comment)
       

@@ -64,15 +64,21 @@ const FollowingCard = () => {
     const fetchDataForFollowersAndFollowing = async () => {
       setLoading(true)
      
-      const followerDataPromises = user.followers.map(async (followerId) => {
+      const followerDataPromises = user?.followers?.map(async (followerId) => {
         const follower = await getUser(followerId);
-        return follower;
+        if(follower){
+          return follower;
+        }
+      
+      
       });
 
-      const followingDataPromises = user.following.map(async (followingId) => {
+      const followingDataPromises = user?.following?.map(async (followingId) => {
         const following = await getUser(followingId);
-    
-        return following;
+    if(following){
+      return following;
+    }
+      
       });
 
       const [followers, following] = await Promise.all([
